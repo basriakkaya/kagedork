@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KageDork - Beni Oku</title>
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --secondary-color: #4CAF50;
+            --background-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --accent-color: #2196F3;
+            --border-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo img {
+            height: 150px;
+            width: auto;
+            transition: transform 0.3s;
+        }
+
+        .logo img:hover {
+            transform: scale(1.1);
+        }
+
+        .dork-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+
+        .dork-section h2 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 1.3rem;
+        }
+
+        .dork-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--primary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .dork-item h3 {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .description {
+            margin-top: 0.5rem;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            background: var(--primary-color);
+            color: var(--text-color);
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            background: #1976D2;
+        }
+
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .language-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .language-btn:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .language-btn.active {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .dork-section {
+                padding: 1rem;
+            }
+
+            .language-selector {
+                position: static;
+                justify-content: center;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="language-selector">
+                <button class="language-btn active" data-lang="tr">TR</button>
+                <button class="language-btn" data-lang="en">EN</button>
+                <button class="language-btn" data-lang="mk">MK</button>
+            </div>
+            <div class="logo">
+                <img src="kagedork.png" alt="KageDork Logo">
+            </div>
+            <p data-i18n="subtitle">Google Dorks Tool for Bug Bounty & Security Testing</p>
+            <a href="index.html" class="back-button" data-i18n="backButton">Ana Sayfaya Dön</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="dork-section">
+            <h2 data-i18n="sections.about">Beni Oku</h2>
+            
+            <div class="dork-item">
+                <h3 data-i18n="titles.about1">KageDork Nedir?</h3>
+                <p class="description" data-i18n="descriptions.about1">KageDork, güvenlik testleri ve bug bounty araştırmaları için geliştirilmiş bir Google Dorks aracıdır. Bu araç, hedef domainlerde gizli dosyaları, hassas bilgileri ve potansiyel güvenlik açıklarını bulmanıza yardımcı olur.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.about2">Nasıl Kullanılır?</h3>
+                <p class="description" data-i18n="descriptions.about2">1. Üst kısımdaki arama kutusuna hedef domaini girin (örn: example.com)<br>
+                2. İlgili dork kategorisini seçin<br>
+                3. Dork kodunu kopyalayın ve Google'da arama yapın<br>
+                4. Sonuçları analiz edin ve güvenlik açıklarını raporlayın</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.about3">Önemli Notlar</h3>
+                <p class="description" data-i18n="descriptions.about3">• Bu araç sadece etik hack ve güvenlik testleri için kullanılmalıdır<br>
+                • Hedef domainlerin izni olmadan test yapmayın<br>
+                • Bulduğunuz güvenlik açıklarını sorumlu açıklama politikasına uygun şekilde raporlayın<br>
+                • Tüm testler yasal çerçevede yapılmalıdır</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.about4">Kategoriler</h3>
+                <p class="description" data-i18n="descriptions.about4">• Genel Alan Aramaları: Temel domain aramaları<br>
+                • API Endpoint'leri: API dokümantasyon ve endpoint'leri<br>
+                • Hassas Dosya Uzantıları: Kritik dosya ve dizinler<br>
+                • Sunucu Hataları: Hata mesajları ve istisnalar<br>
+                • Güvenlik Açığı Parametreleri: XSS, SQLi, SSRF vb.<br>
+                • Bulut Depolama: Çeşitli bulut servisleri<br>
+                • Diğer Servisler: Özel servis ve araçlar</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.about5">Güvenlik ve Etik</h3>
+                <p class="description" data-i18n="descriptions.about5">KageDork, güvenlik araştırmacıları ve etik hackerlar için geliştirilmiştir. Bu aracı kullanırken:<br>
+                • Hedef sistemlerin izni olmadan test yapmayın<br>
+                • Bulduğunuz açıkları sorumlu açıklama politikasına uygun şekilde raporlayın<br>
+                • Kişisel verileri ve hassas bilgileri kötüye kullanmayın<br>
+                • Tüm testleri yasal çerçevede yapın</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 KageDork | <span data-i18n="footerText">Bug Bounty & Security Testing Tool</span></p>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/basriakkaya/" class="social-link" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                    <span>Basri Akkaya</span>
+                </a>
+                <a href="https://medium.com/@basriakkaya" class="social-link" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6zm9.65 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5zM12 7c2.9 0 5.25 2.35 5.25 5.25S14.9 17.5 12 17.5s-5.25-2.35-5.25-5.25S9.1 7 12 7zm0 2a3.25 3.25 0 1 0 0 6.5 3.25 3.25 0 0 0 0-6.5z"/>
+                    </svg>
+                    <span>Medium</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const translations = {
+            tr: {
+                subtitle: "Google Dorks Tool for Bug Bounty & Security Testing",
+                footerText: "Bug Bounty & Security Testing Tool",
+                backButton: "Ana Sayfaya Dön",
+                sections: {
+                    about: "Beni Oku"
+                },
+                titles: {
+                    about1: "KageDork Nedir?",
+                    about2: "Nasıl Kullanılır?",
+                    about3: "Önemli Notlar",
+                    about4: "Kategoriler",
+                    about5: "Güvenlik ve Etik"
+                },
+                descriptions: {
+                    about1: "KageDork, güvenlik testleri ve bug bounty araştırmaları için geliştirilmiş bir Google Dorks aracıdır. Bu araç, hedef domainlerde gizli dosyaları, hassas bilgileri ve potansiyel güvenlik açıklarını bulmanıza yardımcı olur.",
+                    about2: "1. Üst kısımdaki arama kutusuna hedef domaini girin (örn: example.com)<br>2. İlgili dork kategorisini seçin<br>3. Dork kodunu kopyalayın ve Google'da arama yapın<br>4. Sonuçları analiz edin ve güvenlik açıklarını raporlayın",
+                    about3: "• Bu araç sadece etik hack ve güvenlik testleri için kullanılmalıdır<br>• Hedef domainlerin izni olmadan test yapmayın<br>• Bulduğunuz güvenlik açıklarını sorumlu açıklama politikasına uygun şekilde raporlayın<br>• Tüm testler yasal çerçevede yapılmalıdır",
+                    about4: "• Genel Alan Aramaları: Temel domain aramaları<br>• API Endpoint'leri: API dokümantasyon ve endpoint'leri<br>• Hassas Dosya Uzantıları: Kritik dosya ve dizinler<br>• Sunucu Hataları: Hata mesajları ve istisnalar<br>• Güvenlik Açığı Parametreleri: XSS, SQLi, SSRF vb.<br>• Bulut Depolama: Çeşitli bulut servisleri<br>• Diğer Servisler: Özel servis ve araçlar",
+                    about5: "KageDork, güvenlik araştırmacıları ve etik hackerlar için geliştirilmiştir. Bu aracı kullanırken:<br>• Hedef sistemlerin izni olmadan test yapmayın<br>• Bulduğunuz açıkları sorumlu açıklama politikasına uygun şekilde raporlayın<br>• Kişisel verileri ve hassas bilgileri kötüye kullanmayın<br>• Tüm testleri yasal çerçevede yapın"
+                }
+            },
+            en: {
+                subtitle: "Google Dorks Tool for Bug Bounty & Security Testing",
+                footerText: "Bug Bounty & Security Testing Tool",
+                backButton: "Back to Home",
+                sections: {
+                    about: "About"
+                },
+                titles: {
+                    about1: "What is KageDork?",
+                    about2: "How to Use?",
+                    about3: "Important Notes",
+                    about4: "Categories",
+                    about5: "Security and Ethics"
+                },
+                descriptions: {
+                    about1: "KageDork is a Google Dorks tool developed for security testing and bug bounty research. This tool helps you find hidden files, sensitive information, and potential security vulnerabilities in target domains.",
+                    about2: "1. Enter the target domain in the search box (e.g., example.com)<br>2. Select the relevant dork category<br>3. Copy the dork code and search in Google<br>4. Analyze the results and report security vulnerabilities",
+                    about3: "• This tool should only be used for ethical hacking and security testing<br>• Do not test without permission from target domains<br>• Report found security vulnerabilities according to responsible disclosure policy<br>• All tests must be conducted within legal framework",
+                    about4: "• General Domain Searches: Basic domain searches<br>• API Endpoints: API documentation and endpoints<br>• Sensitive File Extensions: Critical files and directories<br>• Server Errors: Error messages and exceptions<br>• Vulnerability Parameters: XSS, SQLi, SSRF, etc.<br>• Cloud Storage: Various cloud services<br>• Other Services: Special services and tools",
+                    about5: "KageDork is developed for security researchers and ethical hackers. When using this tool:<br>• Do not test without permission from target systems<br>• Report found vulnerabilities according to responsible disclosure policy<br>• Do not misuse personal data and sensitive information<br>• Conduct all tests within legal framework"
+                }
+            },
+            mk: {
+                subtitle: "Google Dorks Tool за Bug Bounty & Security Testing",
+                footerText: "Bug Bounty & Security Testing Tool",
+                backButton: "Назад кон почетната",
+                sections: {
+                    about: "За нас"
+                },
+                titles: {
+                    about1: "Што е KageDork?",
+                    about2: "Како да се користи?",
+                    about3: "Важни забелешки",
+                    about4: "Категории",
+                    about5: "Безбедност и етика"
+                },
+                descriptions: {
+                    about1: "KageDork е алатка за Google Dorks развиена за безбедносни тестови и истражување на bug bounty. Оваа алатка ви помага да најдете скриени датотеки, осетливи информации и потенцијални безбедносни ранливости во целните домени.",
+                    about2: "1. Внесете го целниот домен во полето за пребарување (на пр. example.com)<br>2. Изберете ја релевантната категорија на dork<br>3. Копирајте го dork кодот и пребарајте во Google<br>4. Анализирајте ги резултатите и пријавете ги безбедносните ранливости",
+                    about3: "• Оваа алатка треба да се користи само за етичко хакирање и безбедносни тестови<br>• Не тестирајте без дозвола од целните домени<br>• Пријавете ги пронајдените безбедносни ранливости според политиката за одговорно откривање<br>• Сите тестови мора да се спроведат во законска рамка",
+                    about4: "• Општи пребарувања на домен: Основни пребарувања на домен<br>• API крајни точки: API документација и крајни точки<br>• Осетливи датотечни екстензии: Критични датотеки и директориуми<br>• Серверски грешки: Пораки за грешки и исклучоци<br>• Параметри на ранливост: XSS, SQLi, SSRF, итн.<br>• Облачно складирање: Различни облачни услуги<br>• Други услуги: Специјални услуги и алатки",
+                    about5: "KageDork е развиен за безбедносни истражувачи и етички хакери. Кога ја користите оваа алатка:<br>• Не тестирајте без дозвола од целните системи<br>• Пријавете ги пронајдените ранливости според политиката за одговорно откривање<br>• Не злоупотребувајте лични податоци и осетливи информации<br>• Спроведувајте ги сите тестови во законска рамка"
+                }
+            }
+        };
+
+        const languageButtons = document.querySelectorAll('.language-btn');
+        let currentLanguage = 'tr';
+
+        function updateLanguage(lang) {
+            currentLanguage = lang;
+            const elements = document.querySelectorAll('[data-i18n]');
+            const sectionTitles = document.querySelectorAll('.dork-section h2');
+            const descriptions = document.querySelectorAll('.description');
+            const itemTitles = document.querySelectorAll('.dork-item h3');
+
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            sectionTitles.forEach((title, index) => {
+                const sectionKey = Object.keys(translations[lang].sections)[index];
+                if (sectionKey) {
+                    title.textContent = translations[lang].sections[sectionKey];
+                }
+            });
+
+            descriptions.forEach((desc, index) => {
+                const descKey = Object.keys(translations[lang].descriptions)[index];
+                if (descKey) {
+                    desc.innerHTML = translations[lang].descriptions[descKey];
+                }
+            });
+
+            itemTitles.forEach((title, index) => {
+                const titleKey = Object.keys(translations[lang].titles)[index];
+                if (titleKey) {
+                    title.textContent = translations[lang].titles[titleKey];
+                }
+            });
+
+            languageButtons.forEach(button => {
+                button.classList.remove('active');
+                if (button.getAttribute('data-lang') === lang) {
+                    button.classList.add('active');
+                }
+            });
+        }
+
+        languageButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const lang = button.getAttribute('data-lang');
+                updateLanguage(lang);
+            });
+        });
+    </script>
+</body>
+</html> 

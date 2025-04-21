@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KageDork - Google Dorks Tool</title>
+    <link rel="icon" type="image/png" href="kagedork.png">
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --secondary-color: #4CAF50;
+            --background-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --accent-color: #2196F3;
+            --border-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo img {
+            height: 180px;
+            width: auto;
+            transition: transform 0.3s;
+        }
+
+        .logo img:hover {
+            transform: scale(1.1);
+        }
+
+        .search-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .search-input {
+            width: 80%;
+            max-width: 600px;
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            font-size: 1rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+        }
+
+        .dork-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+
+        .dork-section h2 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 1.3rem;
+        }
+
+        .dork-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--primary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .dork-item h3 {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .dork-code {
+            background: var(--background-color);
+            color: var(--text-color);
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            margin: 0.5rem 0;
+            font-family: 'Consolas', monospace;
+            position: relative;
+            border-radius: 4px;
+            word-break: break-all;
+            padding-right: 200px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+        }
+
+        .button-container {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .copy-btn, .search-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            min-width: 100px;
+            height: 32px;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            margin: 0;
+            white-space: nowrap;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Makedonca dil seçiliyken butonlar için özel stil */
+        [data-lang="mk"] .search-btn {
+            min-width: 130px;
+            font-size: 0.75rem;
+            padding: 6px 8px;
+        }
+
+        .search-btn {
+            background: #4CAF50;
+        }
+
+        .search-btn:hover {
+            background: #388E3C;
+        }
+
+        .description {
+            margin-top: 0.5rem;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            background: var(--primary-color);
+            color: var(--text-color);
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .dork-section {
+                padding: 1rem;
+            }
+
+            .search-input {
+                width: 95%;
+            }
+
+            .language-selector {
+                position: static;
+                justify-content: center;
+                margin-bottom: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo img {
+                height: 100px;
+            }
+
+            .button-container {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .copy-btn, .search-btn {
+                width: 100%;
+            }
+
+            .dork-code {
+                font-size: 0.8rem;
+            }
+
+            .scroll-to-top {
+                bottom: 15px;
+                right: 15px;
+                width: 35px;
+                height: 35px;
+            }
+
+            .scroll-to-top svg {
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+        /* Tablet için özel düzenlemeler */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                padding: 15px;
+                width: 95%;
+            }
+
+            .dork-code {
+                padding-right: 160px;
+            }
+
+            .button-container {
+                right: 8px;
+            }
+
+            .copy-btn, .search-btn {
+                min-width: 90px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Yatay telefon görünümü için düzenlemeler */
+        @media (max-height: 480px) and (orientation: landscape) {
+            .logo img {
+                height: 80px;
+            }
+
+            .dork-section {
+                margin: 0.8rem 0;
+            }
+
+            .scroll-to-top {
+                bottom: 10px;
+                right: 10px;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--primary-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
+        }
+
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .language-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .language-btn:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .language-btn.active {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .language-selector {
+                position: static;
+                justify-content: center;
+                margin-bottom: 1rem;
+            }
+        }
+
+        .about-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .about-button:hover {
+            background: #1976D2;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 80px;
+            top: 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            width: 100px;
+            text-align: center;
+        }
+
+        .search-btn:hover {
+            background: #388E3C;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .scroll-to-top:hover {
+            background-color: #1976D2;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        @media (max-width: 768px) {
+            .scroll-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .scroll-to-top svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        /* Popup için CSS ekleyelim - style taginin içine */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .popup-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 90%;
+            width: 400px;
+            text-align: center;
+            position: relative;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .popup-content h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .popup-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .popup-button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .popup-button:hover {
+            background: #1976D2;
+        }
+
+        /* Filtreleme için CSS ekleyelim - style taginin içine */
+        .filter-container {
+            margin: 2rem 0;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 0 15px;
+        }
+
+        .filter-btn {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            min-width: 120px;
+        }
+
+        .filter-btn:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .filter-btn.active {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .dork-section {
+            display: none;
+        }
+
+        .dork-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .filter-btn {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+                min-width: 100px;
+            }
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .info-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--card-bg);
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+            transition: all 0.3s;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+
+        .info-button:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        #infoPopup .popup-content {
+            max-width: 500px;
+        }
+
+        #infoPopup p {
+            margin: 20px 0;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Popup HTML - body taginin hemen altına -->
+    <div class="popup-overlay" id="warningPopup">
+        <div class="popup-content">
+            <h3 data-i18n="popupTitle">Uyarı!</h3>
+            <p data-i18n="popupMessage">Unutma: Tıkladığın her tuş internette bir yerlerde çöplükte!</p>
+            <button class="popup-button" data-i18n="popupButton" onclick="closePopup()">Anladım</button>
+        </div>
+    </div>
+
+    <div class="popup-overlay" id="infoPopup">
+        <div class="popup-content">
+            <h3 data-i18n="infoTitle">Ne işe yarar?</h3>
+            <p data-i18n="infoMessage">KageDork, Google üzerinden güvenlik testleri yapmanızı sağlayan özel bir arama motorudur. Hedef sitenin güvenlik açıklarını, hassas dosyalarını ve yapılandırma hatalarını tespit etmenize yardımcı olur.</p>
+            <button class="popup-button" onclick="closeInfoPopup()" data-i18n="infoCloseButton">Anladım</button>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <div class="language-selector">
+                <button class="language-btn active" data-lang="tr">TR</button>
+                <button class="language-btn" data-lang="en">EN</button>
+                <button class="language-btn" data-lang="mk">MK</button>
+            </div>
+            <div class="logo">
+                <img src="kagedork.png" alt="KageDork Logo">
+            </div>
+            <p data-i18n="subtitle">Google Dorks Tool for Bug Bounty & Security Testing</p>
+            <div class="header-buttons">
+                <button class="info-button" onclick="showInfoPopup()" data-i18n="infoButton">Ne işe yarar?</button>
+                <a href="about.html" class="about-button" data-i18n="aboutButton">Beni Oku</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Enter domain (e.g., example.com)" id="domainInput" data-i18n-placeholder="searchPlaceholder">
+        </div>
+
+        <!-- Filtreleme butonları -->
+        <div class="filter-container">
+            <button class="filter-btn active" data-category="all" data-i18n="filter.all">Tümü</button>
+            <button class="filter-btn" data-category="api" data-i18n="filter.api">API Endpoint'leri</button>
+            <button class="filter-btn" data-category="sensitive" data-i18n="filter.sensitive">Hassas Dosyalar</button>
+            <button class="filter-btn" data-category="error" data-i18n="filter.error">Hata Mesajları</button>
+            <button class="filter-btn" data-category="cloud" data-i18n="filter.cloud">Bulut Depolama</button>
+        </div>
+
+        <div class="dork-section active" data-category="login">
+            <h2 data-i18n="sections.general">Genel Alan Aramaları</h2>
+            
+            <div class="dork-item">
+                <h3 data-i18n="titles.general1">Negatif Aramalı Geniş Alan Arama</h3>
+                <div class="dork-code">
+                    site:<span class="domain-placeholder">example.com</span> -www -shop -share -ir -mfa
+                </div>
+                <p class="description" data-i18n="descriptions.general1">Belirli bir alan adında, belirtilen alt alanları hariç tutarak arama yapar.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.general2">PHP Uzantılı Parametreli Sayfalar</h3>
+                <div class="dork-code">
+                    site:<span class="domain-placeholder">example.com</span> ext:php inurl:?
+                </div>
+                <p class="description" data-i18n="descriptions.general2">PHP uzantılı ve URL'de parametre içeren sayfaları bulur.</p>
+            </div>
+        </div>
+
+        <div class="dork-section active" data-category="error">
+            <h2 data-i18n="sections.server">Sunucu Hataları</h2>
+            
+            <div class="dork-item">
+                <h3 data-i18n="titles.server1">Hata Sayfaları</h3>
+                <div class="dork-code">
+                    inurl:"error" | intitle:"exception" | intitle:"failure" | intitle:"server at" | inurl:exception | "database error" | "SQL syntax" | "undefined index" | "unhandled exception" | "stack trace" site:<span class="domain-placeholder">example[.]com</span>
+                </div>
+                <p class="description">Hata mesajları ve istisna sayfalarını bulur.</p>
+            </div>
+        </div>
+
+        <div class="dork-section active" data-category="sensitive">
+            <h2 data-i18n="sections.sensitive">Hassas Dosya Uzantıları</h2>
+            
+            <div class="dork-item">
+                <h3 data-i18n="titles.sensitive1">Hassas Dosya Arama</h3>
+                <div class="dork-code">
+                    <code>site:example.com ext:php OR ext:asp OR ext:aspx OR ext:jsp OR ext:html</code>
+                </div>
+                <p class="description" data-i18n="descriptions.sensitive1">PHP, ASP, ASPX, JSP ve HTML dosyalarını bulur.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.sensitive2">Yüksek Öncelikli URL Anahtar Kelimeleri</h3>
+                <div class="dork-code">
+                    inurl:conf | inurl:env | inurl:cgi | inurl:bin | inurl:etc | inurl:root | inurl:sql | inurl:backup | inurl:admin | inurl:php site:<span class="domain-placeholder">example[.]com</span>
+                </div>
+                <p class="description">Hassas dizin ve dosyaları içeren URL'leri bulur.</p>
+            </div>
+        </div>
+
+        <div class="dork-section active" data-category="api">
+            <h2 data-i18n="sections.api">API Endpoint'leri</h2>
+            
+            <div class="dork-item">
+                <h3 data-i18n="titles.api1">API Endpoint Arama</h3>
+                <div class="dork-code">
+                    site:<span class="domain-placeholder">example[.]com</span> inurl:api | site:*/rest | site:*/v1 | site:*/v2 | site:*/v3
+                </div>
+                <p class="description" data-i18n="descriptions.api1">Farklı API versiyonlarını ve REST endpoint'lerini bulur.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.api2">API Dokümantasyonu</h3>
+                <div class="dork-code">
+                    inurl:apidocs | inurl:api-docs | inurl:swagger | inurl:api-explorer site:"<span class="domain-placeholder">example[.]com</span>"
+                </div>
+                <p class="description" data-i18n="descriptions.api2">API dokümantasyon sayfalarını bulur.</p>
+            </div>
+        </div>
+
+        <div class="dork-section active" data-category="cloud">
+            <h2 data-i18n="sections.cloud">Bulut Depolama</h2>
+            
+            <div class="dork-item">
+                <h3 data-i18n="titles.cloud1">Bulut Depolama Servisleri</h3>
+                <div class="dork-code">
+                    site:s3.amazonaws.com "<span class="domain-placeholder">example.com</span>"
+                </div>
+                <p class="description">Amazon S3'te domain ile ilgili dosyaları bulur.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.cloud2">Azure Blob Storage</h3>
+                <div class="dork-code">
+                    site:blob.core.windows.net "<span class="domain-placeholder">example.com</span>"
+                </div>
+                <p class="description">Azure Blob Storage'da domain ile ilgili dosyaları bulur.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.cloud3">Google Cloud Storage</h3>
+                <div class="dork-code">
+                    site:googleapis.com "<span class="domain-placeholder">example.com</span>"
+                </div>
+                <p class="description">Google Cloud Storage'da domain ile ilgili dosyaları bulur.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.cloud4">Google Drive</h3>
+                <div class="dork-code">
+                    site:drive.google.com "<span class="domain-placeholder">example.com</span>"
+                </div>
+                <p class="description">Google Drive'da domain ile ilgili dosyaları bulur.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.cloud5">Azure DevOps</h3>
+                <div class="dork-code">
+                    site:dev.azure.com "<span class="domain-placeholder">example.com</span>"
+                </div>
+                <p class="description">Azure DevOps'ta domain ile ilgili dosyaları bulur.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.cloud6">OneDrive</h3>
+                <div class="dork-code">
+                    site:onedrive.live.com "<span class="domain-placeholder">example.com</span>"
+                </div>
+                <p class="description">OneDrive'da domain ile ilgili dosyaları bulur.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.cloud7">DigitalOcean Spaces</h3>
+                <div class="dork-code">
+                    site:digitaloceanspaces.com "<span class="domain-placeholder">example.com</span>"
+                </div>
+                <p class="description">DigitalOcean Spaces'te domain ile ilgili dosyaları bulur.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.cloud8">SharePoint</h3>
+                <div class="dork-code">
+                    site:sharepoint.com "<span class="domain-placeholder">example.com</span>"
+                </div>
+                <p class="description">SharePoint'te domain ile ilgili dosyaları bulur.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.cloud9">Amazon S3 (Alternatif)</h3>
+                <div class="dork-code">
+                    site:s3-external-1.amazonaws.com "<span class="domain-placeholder">example.com</span>"
+                </div>
+                <p class="description">Amazon S3'ün alternatif endpoint'inde domain ile ilgili dosyaları bulur.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.cloud10">Amazon S3 (US East)</h3>
+                <div class="dork-code">
+                    site:s3.dualstack.us-east-1.amazonaws.com "<span class="domain-placeholder">example.com</span>"
+                </div>
+                <p class="description">Amazon S3 US East bölgesinde domain ile ilgili dosyaları bulur.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.cloud11">Dropbox</h3>
+                <div class="dork-code">
+                    site:dropbox.com/s "<span class="domain-placeholder">example.com</span>"
+                </div>
+                <p class="description">Dropbox'ta domain ile ilgili dosyaları bulur.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.cloud12">Box</h3>
+                <div class="dork-code">
+                    site:box.com/s "<span class="domain-placeholder">example.com</span>"
+                </div>
+                <p class="description">Box'ta domain ile ilgili dosyaları bulur.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.cloud13">Google Docs</h3>
+                <div class="dork-code">
+                    site:docs.google.com inurl:"/d/" "<span class="domain-placeholder">example.com</span>"
+                </div>
+                <p class="description">Google Docs'ta domain ile ilgili dokümanları bulur.</p>
+            </div>
+        </div>
+
+        <div class="dork-section active" data-category="other">
+            <h2>Diğer Servisler</h2>
+            
+            <div class="dork-item">
+                <h3 data-i18n="titles.other1">JFrog Artifactory</h3>
+                <div class="dork-code">
+                    site:jfrog.io "<span class="domain-placeholder">example[.]com</span>"
+                </div>
+                <p class="description">JFrog Artifactory'de domain ile ilgili dosyaları bulur.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.other2">Firebase</h3>
+                <div class="dork-code">
+                    site:firebaseio.com "<span class="domain-placeholder">example[.]com</span>"
+                </div>
+                <p class="description">Firebase'de domain ile ilgili verileri bulur.</p>
+            </div>
+
+            <div class="dork-item">
+                <h3 data-i18n="titles.other3">Güvenlik.txt</h3>
+                <div class="dork-code">
+                    site:*/security.txt "bounty"
+                </div>
+                <p class="description">Güvenlik.txt dosyalarını ve bug bounty programlarını bulur.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 KageDork | <span data-i18n="footerText">Bug Bounty & Security Testing Tool</span></p>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/basriakkaya/" class="social-link" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                    <span>Basri Akkaya</span>
+                </a>
+                <a href="https://medium.com/@basriakkaya" class="social-link" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6zm9.65 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5zM12 7c2.9 0 5.25 2.35 5.25 5.25S14.9 17.5 12 17.5s-5.25-2.35-5.25-5.25S9.1 7 12 7zm0 2a3.25 3.25 0 1 0 0 6.5 3.25 3.25 0 0 0 0-6.5z"/>
+                    </svg>
+                    <span>Medium</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <div class="scroll-to-top" id="scrollToTop" title="Yukarı Çık">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 4l-8 8h6v8h4v-8h6z"/>
+        </svg>
+    </div>
+
+    <script>
+        function copyToClipboard(button) {
+            const dorkCode = button.closest('.dork-code');
+            // Buton container'ı hariç tüm içeriği al
+            const textToCopy = dorkCode.cloneNode(true);
+            const buttonContainer = textToCopy.querySelector('.button-container');
+            if (buttonContainer) {
+                buttonContainer.remove();
+            }
+            const cleanText = textToCopy.textContent.trim();
+
+            navigator.clipboard.writeText(cleanText).then(() => {
+                const originalText = button.textContent;
+                button.textContent = translations[currentLanguage].copiedButton;
+                setTimeout(() => {
+                    button.textContent = translations[currentLanguage].copyButton;
+                }, 2000);
+            });
+        }
+
+        function searchInGoogle(button) {
+            const dorkCode = button.closest('.dork-code');
+            // Buton container'ı hariç tüm içeriği al
+            const textToCopy = dorkCode.cloneNode(true);
+            const buttonContainer = textToCopy.querySelector('.button-container');
+            if (buttonContainer) {
+                buttonContainer.remove();
+            }
+            const searchText = textToCopy.textContent.trim();
+            
+            if (searchText) {
+                const encodedDork = encodeURIComponent(searchText);
+                window.open(`https://www.google.com/search?q=${encodedDork}`, '_blank');
+            }
+        }
+
+        function updateDomainInDorks() {
+            const domain = document.getElementById('domainInput').value || 'example.com';
+            document.querySelectorAll('.domain-placeholder').forEach(placeholder => {
+                placeholder.textContent = domain;
+            });
+        }
+
+        const domainInput = document.getElementById('domainInput');
+        domainInput.addEventListener('input', updateDomainInDorks);
+
+        // Sayfa yüklendiğinde tüm dork kodlarını düzenle
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.dork-code').forEach(dorkCode => {
+                // Eğer zaten düzenlenmiş yapıda değilse düzenle
+                if (!dorkCode.querySelector('.button-container')) {
+                    const buttonContainer = document.createElement('div');
+                    buttonContainer.className = 'button-container';
+                    buttonContainer.innerHTML = `
+                        <button class="copy-btn" onclick="copyToClipboard(this)" data-i18n="copyButton">Kopyala</button>
+                        <button class="search-btn" onclick="searchInGoogle(this)" data-i18n="searchButton">Google'da Ara</button>
+                    `;
+                    dorkCode.appendChild(buttonContainer);
+                }
+            });
+        });
+
+        const translations = {
+            tr: {
+                subtitle: "Bug Bounty ve Güvenlik Testleri için Google Dorks Aracı",
+                searchPlaceholder: "Domain girin (örn: example.com)",
+                footerText: "Bug Bounty ve Güvenlik Test Aracı",
+                copyButton: "Kopyala",
+                copiedButton: "Kopyalandı!",
+                searchButton: "Google'da Ara",
+                aboutButton: "Beni Oku",
+                scrollToTop: "Yukarı Çık",
+                sections: {
+                    general: "Genel Alan Aramaları",
+                    api: "API Endpoint'leri",
+                    sensitive: "Hassas Dosya Uzantıları",
+                    server: "Sunucu Hataları",
+                    vulnerability: "Güvenlik Açığı Parametreleri",
+                    upload: "Dosya Yükleme ve Giriş Sayfaları",
+                    test: "Test ve Hassas Ortamlar",
+                    aem: "Adobe Experience Manager",
+                    security: "Güvenlik Raporları",
+                    code: "Kod Sızıntıları",
+                    cloud: "Bulut Depolama",
+                    other: "Diğer Servisler"
+                },
+                titles: {
+                    general1: "Negatif Aramalı Geniş Alan Arama",
+                    general2: "PHP Uzantılı Parametreli Sayfalar",
+                    api1: "API Endpoint Arama",
+                    api2: "API Dokümantasyonu",
+                    sensitive1: "Hassas Dosya Arama",
+                    sensitive2: "Yüksek Öncelikli URL Anahtar Kelimeleri",
+                    server1: "Hata Sayfaları",
+                    vulnerability1: "XSS Duyarlı Parametreler",
+                    vulnerability2: "Açık Yönlendirme Duyarlı Parametreler",
+                    vulnerability3: "SQL Enjeksiyon Duyarlı Parametreler",
+                    vulnerability4: "SSRF Duyarlı Parametreler",
+                    vulnerability5: "LFI Duyarlı Parametreler",
+                    vulnerability6: "RCE Duyarlı Parametreler",
+                    upload1: "Dosya Yükleme Endpoint'leri",
+                    upload2: "Giriş Sayfaları",
+                    test1: "Test Ortamları",
+                    test2: "Hassas Dokümanlar",
+                    test3: "Hassas Parametreler",
+                    aem1: "AEM Dizinleri",
+                    security1: "Bildirilen XSS ve Açık Yönlendirmeler",
+                    security2: "Google Grupları",
+                    code1: "Kod Paylaşım Siteleri",
+                    cloud1: "Amazon S3",
+                    cloud2: "Azure Blob Storage",
+                    cloud3: "Google Cloud Storage",
+                    cloud4: "Google Drive",
+                    cloud5: "Azure DevOps",
+                    cloud6: "OneDrive",
+                    cloud7: "DigitalOcean Spaces",
+                    cloud8: "SharePoint",
+                    cloud9: "Amazon S3 (Alternatif)",
+                    cloud10: "Amazon S3 (US East)",
+                    cloud11: "Dropbox",
+                    cloud12: "Box",
+                    cloud13: "Google Docs",
+                    other1: "JFrog Artifactory",
+                    other2: "Firebase",
+                    other3: "Security.txt"
+                },
+                descriptions: {
+                    general1: "Belirli bir alan adında, belirtilen alt alanları hariç tutarak arama yapar.",
+                    general2: "PHP uzantılı ve URL'de parametre içeren sayfaları bulur.",
+                    api1: "Farklı API versiyonlarını ve REST endpoint'lerini bulur.",
+                    api2: "API dokümantasyon sayfalarını bulur.",
+                    sensitive1: "PHP, ASP, ASPX, JSP ve HTML dosyalarını bulur.",
+                    sensitive2: "Hassas dizin ve dosyaları içeren URL'leri bulur.",
+                    server1: "Hata mesajları ve istisna sayfalarını bulur.",
+                    vulnerability1: "XSS açıklarına karşı duyarlı parametreleri içeren URL'leri bulur.",
+                    vulnerability2: "Açık yönlendirme açıklarına karşı duyarlı parametreleri içeren URL'leri bulur.",
+                    vulnerability3: "SQL enjeksiyon açıklarına karşı duyarlı parametreleri içeren URL'leri bulur.",
+                    vulnerability4: "SSRF açıklarına karşı duyarlı parametreleri içeren URL'leri bulur.",
+                    vulnerability5: "LFI açıklarına karşı duyarlı parametreleri içeren URL'leri bulur.",
+                    vulnerability6: "RCE açıklarına karşı duyarlı parametreleri içeren URL'leri bulur.",
+                    upload1: "Dosya yükleme formlarını bulur.",
+                    upload2: "Giriş sayfalarını bulur.",
+                    test1: "Test ve geliştirme ortamlarını bulur.",
+                    test2: "Hassas dokümanları bulur.",
+                    test3: "Hassas bilgiler içeren parametreleri bulur.",
+                    aem1: "Adobe Experience Manager dizinlerini bulur.",
+                    security1: "OpenBugBounty'de bildirilen güvenlik açıklarını bulur.",
+                    security2: "Google Grupları'nda domain ile ilgili tartışmaları bulur.",
+                    code1: "Kod paylaşım sitelerinde domain ile ilgili kodları bulur.",
+                    cloud1: "Amazon S3'te domain ile ilgili dosyaları bulur.",
+                    cloud2: "Azure Blob Storage'da domain ile ilgili dosyaları bulur.",
+                    cloud3: "Google Cloud Storage'da domain ile ilgili dosyaları bulur.",
+                    cloud4: "Google Drive'da domain ile ilgili dosyaları bulur.",
+                    cloud5: "Azure DevOps'ta domain ile ilgili dosyaları bulur.",
+                    cloud6: "OneDrive'da domain ile ilgili dosyaları bulur.",
+                    cloud7: "DigitalOcean Spaces'te domain ile ilgili dosyaları bulur.",
+                    cloud8: "SharePoint'te domain ile ilgili dosyaları bulur.",
+                    cloud9: "Amazon S3'ün alternatif endpoint'inde domain ile ilgili dosyaları bulur.",
+                    cloud10: "Amazon S3 US East bölgesinde domain ile ilgili dosyaları bulur.",
+                    cloud11: "Dropbox'ta domain ile ilgili dosyaları bulur.",
+                    cloud12: "Box'ta domain ile ilgili dosyaları bulur.",
+                    cloud13: "Google Docs'ta domain ile ilgili dokümanları bulur.",
+                    other1: "JFrog Artifactory'de domain ile ilgili dosyaları bulur.",
+                    other2: "Firebase'de domain ile ilgili verileri bulur.",
+                    other3: "Güvenlik.txt dosyalarını ve bug bounty programlarını bulur."
+                },
+                popupTitle: "Uyarı!",
+                popupMessage: "Unutma: Tıkladığın her tuş internette bir yerlerde çöplükte!",
+                popupButton: "Anladım",
+                filter: {
+                    all: "Tümü",
+                    api: "API Endpoint'leri",
+                    sensitive: "Hassas Dosyalar",
+                    error: "Hata Mesajları",
+                    cloud: "Bulut Depolama"
+                },
+                infoButton: "Ne işe yarar?",
+                infoTitle: "Ne işe yarar?",
+                infoMessage: "KageDork, Google üzerinden güvenlik testleri yapmanızı sağlayan özel bir arama motorudur. Hedef sitenin güvenlik açıklarını, hassas dosyalarını ve yapılandırma hatalarını tespit etmenize yardımcı olur.",
+                infoCloseButton: "Anladım"
+            },
+            en: {
+                subtitle: "Google Dorks Tool for Bug Bounty & Security Testing",
+                searchPlaceholder: "Enter domain (e.g., example.com)",
+                footerText: "Bug Bounty & Security Testing Tool",
+                copyButton: "Copy",
+                copiedButton: "Copied!",
+                searchButton: "Search in Google",
+                aboutButton: "About",
+                scrollToTop: "Scroll to Top",
+                sections: {
+                    general: "General Search Terms",
+                    api: "API Endpoints",
+                    sensitive: "Sensitive File Extensions",
+                    server: "Server Errors",
+                    vulnerability: "Vulnerability Parameters",
+                    upload: "Upload and Login Pages",
+                    test: "Test and Sensitive Environments",
+                    aem: "Adobe Experience Manager",
+                    security: "Security Reports",
+                    code: "Code Leaks",
+                    cloud: "Cloud Storage",
+                    other: "Other Services"
+                },
+                titles: {
+                    general1: "Negative Parameterized Wide Area Search",
+                    general2: "PHP Parameterized Pages",
+                    api1: "API Endpoint Search",
+                    api2: "API Documentation",
+                    sensitive1: "Sensitive File Search",
+                    sensitive2: "High Priority URL Keywords",
+                    server1: "Error Pages",
+                    vulnerability1: "XSS Vulnerable Parameters",
+                    vulnerability2: "Open Redirect Vulnerable Parameters",
+                    vulnerability3: "SQL Injection Vulnerable Parameters",
+                    vulnerability4: "SSRF Vulnerable Parameters",
+                    vulnerability5: "LFI Vulnerable Parameters",
+                    vulnerability6: "RCE Vulnerable Parameters",
+                    upload1: "Upload Endpoints",
+                    upload2: "Login Pages",
+                    test1: "Test Environments",
+                    test2: "Sensitive Documents",
+                    test3: "Sensitive Parameters",
+                    aem1: "AEM Directories",
+                    security1: "Reported XSS and Open Redirects",
+                    security2: "Google Groups",
+                    code1: "Code Sharing Sites",
+                    cloud1: "Amazon S3",
+                    cloud2: "Azure Blob Storage",
+                    cloud3: "Google Cloud Storage",
+                    cloud4: "Google Drive",
+                    cloud5: "Azure DevOps",
+                    cloud6: "OneDrive",
+                    cloud7: "DigitalOcean Spaces",
+                    cloud8: "SharePoint",
+                    cloud9: "Amazon S3 (Alternative)",
+                    cloud10: "Amazon S3 (US East)",
+                    cloud11: "Dropbox",
+                    cloud12: "Box",
+                    cloud13: "Google Docs",
+                    other1: "JFrog Artifactory",
+                    other2: "Firebase",
+                    other3: "Security.txt"
+                },
+                descriptions: {
+                    general1: "Searches for a domain while excluding specified subdomains.",
+                    general2: "Searches for PHP files with URL parameters.",
+                    api1: "Searches for different API versions and REST endpoints.",
+                    api2: "Searches for API documentation pages.",
+                    sensitive1: "Searches for PHP, ASP, ASPX, JSP, and HTML files.",
+                    sensitive2: "Searches for URLs containing sensitive directories and files.",
+                    server1: "Searches for error messages and exception pages.",
+                    vulnerability1: "Searches for URLs containing parameters vulnerable to XSS.",
+                    vulnerability2: "Searches for URLs containing parameters vulnerable to open redirect.",
+                    vulnerability3: "Searches for URLs containing parameters vulnerable to SQL injection.",
+                    vulnerability4: "Searches for URLs containing parameters vulnerable to SSRF.",
+                    vulnerability5: "Searches for URLs containing parameters vulnerable to LFI.",
+                    vulnerability6: "Searches for URLs containing parameters vulnerable to RCE.",
+                    upload1: "Searches for upload forms.",
+                    upload2: "Searches for login pages.",
+                    test1: "Searches for test and development environments.",
+                    test2: "Searches for sensitive documents.",
+                    test3: "Searches for parameters containing sensitive information.",
+                    aem1: "Searches for Adobe Experience Manager directories.",
+                    security1: "Searches for reported XSS and open redirects on OpenBugBounty.",
+                    security2: "Searches for discussions related to the domain in Google groups.",
+                    code1: "Searches for code related to the domain on code sharing sites.",
+                    cloud1: "Searches for files related to the domain in Amazon S3.",
+                    cloud2: "Searches for files related to the domain in Azure Blob Storage.",
+                    cloud3: "Searches for files related to the domain in Google Cloud Storage.",
+                    cloud4: "Searches for files related to the domain in Google Drive.",
+                    cloud5: "Searches for files related to the domain in Azure DevOps.",
+                    cloud6: "Searches for files related to the domain in OneDrive.",
+                    cloud7: "Searches for files related to the domain in DigitalOcean Spaces.",
+                    cloud8: "Searches for files related to the domain in SharePoint.",
+                    cloud9: "Searches for files related to the domain in the alternative endpoint of Amazon S3.",
+                    cloud10: "Searches for files related to the domain in the Amazon S3 US East region.",
+                    cloud11: "Searches for files related to the domain in Dropbox.",
+                    cloud12: "Searches for files related to the domain in Box.",
+                    cloud13: "Searches for documents related to the domain in Google Docs.",
+                    other1: "Searches for files related to the domain in JFrog Artifactory.",
+                    other2: "Searches for data related to the domain in Firebase.",
+                    other3: "Searches for security.txt files and bug bounty programs."
+                },
+                popupTitle: "Warning!",
+                popupMessage: "Remember: Every key you click ends up somewhere in the internet junkyard!",
+                popupButton: "I Understand",
+                filter: {
+                    all: "All",
+                    api: "API Endpoints",
+                    sensitive: "Sensitive Files",
+                    error: "Error Messages",
+                    cloud: "Cloud Storage"
+                },
+                infoButton: "What is it for?",
+                infoTitle: "What is it for?",
+                infoMessage: "KageDork is a specialized search engine that helps you perform security tests through Google. It helps you identify security vulnerabilities, sensitive files, and configuration errors on the target site.",
+                infoCloseButton: "I understand"
+            },
+            mk: {
+                subtitle: "Google Dorks алатка за Bug Bounty и безбедносно тестирање",
+                searchPlaceholder: "Внесете домен (пр: example.com)",
+                footerText: "Алатка за Bug Bounty и безбедносно тестирање",
+                copyButton: "Копирај",
+                copiedButton: "Копирано!",
+                searchButton: "Пребарај во Google",
+                aboutButton: "За нас",
+                scrollToTop: "Оди нагоре",
+                sections: {
+                    general: "Општи пребарувања на домен",
+                    api: "API крајни точки",
+                    sensitive: "Чувствителни екстензии на датотеки",
+                    server: "Серверски грешки",
+                    vulnerability: "Параметри за ранливост",
+                    upload: "Страници за прикачување датотеки и најава",
+                    test: "Тест и чувствителни околини",
+                    aem: "Adobe Experience Manager",
+                    security: "Безбедносни извештаи",
+                    code: "Истекување на код",
+                    cloud: "Облак складирање",
+                    other: "Други сервиси"
+                },
+                titles: {
+                    general1: "Пребарување со негативни параметри",
+                    general2: "PHP страници со параметри",
+                    api1: "Пребарување на API крајни точки",
+                    api2: "API документација",
+                    sensitive1: "Пребарување чувствителни датотеки",
+                    sensitive2: "Приоритетни URL клучни зборови",
+                    server1: "Страници со грешки",
+                    vulnerability1: "XSS чувствителни параметри",
+                    vulnerability2: "Параметри за отворено пренасочување",
+                    vulnerability3: "SQL инјекција параметри",
+                    vulnerability4: "SSRF параметри",
+                    vulnerability5: "LFI параметри",
+                    vulnerability6: "RCE параметри",
+                    upload1: "Крајни точки за прикачување",
+                    upload2: "Страници за најава",
+                    test1: "Тест околини",
+                    test2: "Чувствителни документи",
+                    test3: "Чувствителни параметри",
+                    aem1: "AEM директориуми",
+                    security1: "Пријавени XSS и отворени пренасочувања",
+                    security2: "Google групи",
+                    code1: "Страници за споделување код",
+                    cloud1: "Amazon S3",
+                    cloud2: "Azure Blob Storage",
+                    cloud3: "Google Cloud Storage",
+                    cloud4: "Google Drive",
+                    cloud5: "Azure DevOps",
+                    cloud6: "OneDrive",
+                    cloud7: "DigitalOcean Spaces",
+                    cloud8: "SharePoint",
+                    cloud9: "Amazon S3 (Алтернативен)",
+                    cloud10: "Amazon S3 (US East)",
+                    cloud11: "Dropbox",
+                    cloud12: "Box",
+                    cloud13: "Google Docs",
+                    other1: "JFrog Artifactory",
+                    other2: "Firebase",
+                    other3: "Security.txt"
+                },
+                descriptions: {
+                    general1: "Пребарува во одреден домен, исклучувајќи ги наведените поддомени.",
+                    general2: "Наоѓа PHP датотеки со URL параметри.",
+                    api1: "Наоѓа различни верзии на API и REST крајни точки.",
+                    api2: "Наоѓа страници со API документација.",
+                    sensitive1: "Наоѓа PHP, ASP, ASPX, JSP и HTML датотеки.",
+                    sensitive2: "Наоѓа URL-и што содржат чувствителни директориуми и датотеки.",
+                    server1: "Наоѓа пораки за грешки и страници со исклучоци.",
+                    vulnerability1: "Наоѓа URL-и со параметри подложни на XSS.",
+                    vulnerability2: "Наоѓа URL-и со параметри подложни на отворено пренасочување.",
+                    vulnerability3: "Наоѓа URL-и со параметри подложни на SQL инјекција.",
+                    vulnerability4: "Наоѓа URL-и со параметри подложни на SSRF.",
+                    vulnerability5: "Наоѓа URL-и со параметри подложни на LFI.",
+                    vulnerability6: "Наоѓа URL-и со параметри подложни на RCE.",
+                    upload1: "Наоѓа формулари за прикачување датотеки.",
+                    upload2: "Наоѓа страници за најава.",
+                    test1: "Наоѓа тест и развојни околини.",
+                    test2: "Наоѓа чувствителни документи.",
+                    test3: "Наоѓа параметри што содржат чувствителни информации.",
+                    aem1: "Наоѓа Adobe Experience Manager директориуми.",
+                    security1: "Наоѓа пријавени безбедносни ранливости на OpenBugBounty.",
+                    security2: "Наоѓа дискусии поврзани со доменот во Google групи.",
+                    code1: "Наоѓа код поврзан со доменот на страници за споделување код.",
+                    cloud1: "Наоѓа датотеки поврзани со доменот во Amazon S3.",
+                    cloud2: "Наоѓа датотеки поврзани со доменот во Azure Blob Storage.",
+                    cloud3: "Наоѓа датотеки поврзани со доменот во Google Cloud Storage.",
+                    cloud4: "Наоѓа датотеки поврзани со доменот во Google Drive.",
+                    cloud5: "Наоѓа датотеки поврзани со доменот во Azure DevOps.",
+                    cloud6: "Наоѓа датотеки поврзани со доменот во OneDrive.",
+                    cloud7: "Наоѓа датотеки поврзани со доменот во DigitalOcean Spaces.",
+                    cloud8: "Наоѓа датотеки поврзани со доменот во SharePoint.",
+                    cloud9: "Наоѓа датотеки поврзани со доменот во алтернативната крајна точка на Amazon S3.",
+                    cloud10: "Наоѓа датотеки поврзани со доменот во Amazon S3 US East регионот.",
+                    cloud11: "Наоѓа датотеки поврзани со доменот во Dropbox.",
+                    cloud12: "Наоѓа датотеки поврзани со доменот во Box.",
+                    cloud13: "Наоѓа документи поврзани со доменот во Google Docs.",
+                    other1: "Наоѓа датотеки поврзани со доменот во JFrog Artifactory.",
+                    other2: "Наоѓа податоци поврзани со доменот во Firebase.",
+                    other3: "Наоѓа security.txt датотеки и програми за bug bounty."
+                },
+                popupTitle: "Предупредување!",
+                popupMessage: "Запамети: Секое копче што го кликнуваш завршува некаде во интернет отпадот!",
+                popupButton: "Разбирам",
+                filter: {
+                    all: "Сите",
+                    api: "API крајни точки",
+                    sensitive: "Чувствителни датотеки",
+                    error: "Пораки за грешки",
+                    cloud: "Облак складирање"
+                },
+                infoButton: "Што е ова?",
+                infoTitle: "Што е ова?",
+                infoMessage: "KageDork е специјализиран пребарувач кој ви помага да правите безбедносни тестови преку Google. Ви помага да идентификувате безбедносни ранливости, чувствителни датотеки и грешки во конфигурацијата на целната страница.",
+                infoCloseButton: "Разбирам"
+            }
+        };
+
+        const languageButtons = document.querySelectorAll('.language-btn');
+        let currentLanguage = 'tr';
+
+        function updateLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Önceki dil sınıflarını temizle
+            document.body.classList.remove('lang-tr', 'lang-en', 'lang-mk');
+            // Yeni dil sınıfını ekle
+            document.body.setAttribute('data-lang', lang);
+
+            const elements = document.querySelectorAll('[data-i18n]');
+            const placeholders = document.querySelectorAll('[data-i18n-placeholder]');
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            const searchButtons = document.querySelectorAll('.search-btn');
+            const sectionTitles = document.querySelectorAll('.dork-section h2');
+            const descriptions = document.querySelectorAll('.description');
+            const itemTitles = document.querySelectorAll('.dork-item h3');
+
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            placeholders.forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (translations[lang][key]) {
+                    element.placeholder = translations[lang][key];
+                }
+            });
+
+            copyButtons.forEach(button => {
+                button.textContent = translations[lang].copyButton;
+            });
+
+            searchButtons.forEach(button => {
+                button.textContent = translations[lang].searchButton;
+            });
+
+            sectionTitles.forEach((title, index) => {
+                const sectionKey = Object.keys(translations[lang].sections)[index];
+                if (sectionKey) {
+                    title.textContent = translations[lang].sections[sectionKey];
+                }
+            });
+
+            descriptions.forEach((desc, index) => {
+                const descKey = Object.keys(translations[lang].descriptions)[index];
+                if (descKey) {
+                    desc.textContent = translations[lang].descriptions[descKey];
+                }
+            });
+
+            itemTitles.forEach((title, index) => {
+                const titleKey = Object.keys(translations[lang].titles)[index];
+                if (titleKey) {
+                    title.textContent = translations[lang].titles[titleKey];
+                }
+            });
+
+            languageButtons.forEach(button => {
+                button.classList.remove('active');
+                if (button.getAttribute('data-lang') === lang) {
+                    button.classList.add('active');
+                }
+            });
+
+            scrollToTopBtn.title = translations[lang].scrollToTop;
+
+            // Filtreleme butonlarını güncelle
+            updateFilterButtons(lang);
+        }
+
+        languageButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const lang = button.getAttribute('data-lang');
+                updateLanguage(lang);
+            });
+        });
+
+        // URL encode fonksiyonu
+        function encodeURL(text) {
+            return encodeURIComponent(text);
+        }
+
+        // Dork kodlarını güncelleme fonksiyonuna URL encode ekleme
+        function updateDorkCodes(domain) {
+            const dorkCodes = document.querySelectorAll('.dork-code code');
+            dorkCodes.forEach(code => {
+                const originalText = code.getAttribute('data-original') || code.textContent;
+                code.setAttribute('data-original', originalText);
+                const updatedText = originalText.replace(/example\.com/g, domain);
+                code.textContent = updatedText;
+            });
+        }
+
+        // Sayfa yüklendiğinde tüm dork kodlarını düzenle
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.dork-code').forEach(dorkCode => {
+                // Eğer zaten düzenlenmiş yapıda değilse düzenle
+                if (!dorkCode.querySelector('.dork-text')) {
+                    const originalContent = dorkCode.innerHTML.trim();
+                    const dorkText = document.createElement('div');
+                    dorkText.className = 'dork-text';
+                    dorkText.innerHTML = originalContent;
+
+                    const buttonContainer = document.createElement('div');
+                    buttonContainer.className = 'button-container';
+                    buttonContainer.innerHTML = `
+                        <button class="copy-btn" onclick="copyToClipboard(this)" data-i18n="copyButton">Kopyala</button>
+                        <button class="search-btn" onclick="searchInGoogle(this)" data-i18n="searchButton">Google'da Ara</button>
+                    `;
+
+                    dorkCode.innerHTML = '';
+                    dorkCode.appendChild(dorkText);
+                    dorkCode.appendChild(buttonContainer);
+                }
+            });
+        });
+
+        // Yukarı çıkma butonu için kod
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+
+        // Sayfa scroll edildiğinde butonu göster/gizle
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+
+        // Butona tıklandığında yukarı çık
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Popup fonksiyonları - script taginin sonuna
+        function showPopup() {
+            if (!localStorage.getItem('warningShown')) {
+                document.getElementById('warningPopup').style.display = 'flex';
+            }
+        }
+
+        function closePopup() {
+            document.getElementById('warningPopup').style.display = 'none';
+            localStorage.setItem('warningShown', 'true');
+        }
+
+        // Sayfa yüklendiğinde popup'ı göster
+        document.addEventListener('DOMContentLoaded', function() {
+            showPopup();
+        });
+
+        // Filtreleme fonksiyonunu güncelleyelim - script taginin içine
+        function filterDorks(category) {
+            const sections = document.querySelectorAll('.dork-section');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            // Aktif buton stilini güncelle
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-category') === category) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Dork bölümlerini filtrele
+            sections.forEach(section => {
+                if (category === 'all' || section.getAttribute('data-category') === category) {
+                    section.style.display = 'block';
+                    section.style.animation = 'fadeIn 0.5s ease-in-out';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+
+            // Seçilen kategoriye scroll
+            if (category !== 'all') {
+                const firstVisibleSection = document.querySelector(`.dork-section[data-category="${category}"]`);
+                if (firstVisibleSection) {
+                    firstVisibleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        }
+
+        // Dil değiştiğinde filtreleme butonlarını güncelle
+        function updateFilterButtons(lang) {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                const category = button.getAttribute('data-category');
+                if (translations[lang].filter && translations[lang].filter[category]) {
+                    button.textContent = translations[lang].filter[category];
+                }
+            });
+        }
+
+        // Sayfa yüklendiğinde event listener'ları ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            // Filtreleme butonları için event listener
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterDorks(this.getAttribute('data-category'));
+                });
+            });
+
+            // Varsayılan olarak tüm kategorileri göster
+            filterDorks('all');
+
+            // Popup kontrolü
+            showPopup();
+        });
+
+        function showInfoPopup() {
+            document.getElementById('infoPopup').style.display = 'flex';
+        }
+
+        function closeInfoPopup() {
+            document.getElementById('infoPopup').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 
