@@ -1,4 +1,5 @@
 # KageDork - Google Dorks Tool
+![kagedork](https://github.com/user-attachments/assets/ca8a0239-863a-455e-b3e1-dffbf612c59a)
 
 KageDork, güvenlik testleri ve bug bounty araştırmaları için geliştirilmiş bir Google Dorks aracıdır. Bu araç, hedef domainlerde gizli dosyaları, hassas bilgileri ve potansiyel güvenlik açıklarını bulmanıza yardımcı olur.
 
